@@ -1,0 +1,124 @@
+---
+title: "Ejercicios de estructuras de datos"
+author: "ASR"
+date: "11/3/2021"
+output: html_document
+---
+
+# Tareas
+
+## Pregunta 1
+Cread un vector llamado "Harry" formado por la sucesión de números consecutivos entre el -10 y 27. Pedidle a R que os devuelva el elemento de índice 7. Escribid el resultado.
+```{r}
+Harry = c(-10:27)
+Harry[7]
+```
+
+## Pregunta 2
+Dad el máximo de la sucesión $(100*2^n -7*3^n)$ con n=0,...,200
+```{r}
+max(100*2^(0:200)-7*3^(0:200))
+```
+
+## Pregunta 3
+Cread la sucesión de números consecutivos entre 0 y 40. A continuación, cread el vector (3*5^n - 1) con n=0,...,40. Ponedle como nombre x. Ahora, dad el subvector de los elementos que son estrictamente mayores que 3.5
+```{r}
+x = 3*5^(0:40)-1
+x[x>3.5]
+```
+
+## Pregunta 4
+Cread una función que os devuelva la parte real, la imaginaria, el módulo, el argumento y el conjugado de un número, mostrando solo 2 cifras significativas
+```{r}
+f = function (x) {
+  c(Re(x),Im(x),Mod(x),Arg(x),Conj(x))
+}
+vect = f(3+5i)
+vect
+```
+
+
+## Pregunta 5
+Cread una función que resuelva ecuaciones de segundo grado (de la forma Ax^2+Bx+C=0). No importa, por ahora, que tengáis en cuenta las que no tienen solución
+```{r}
+func = function (a,b,c) {
+  polyroot(c(c,b,a))
+}
+func(1,2,1)
+func(1,2,4)
+func(0,2,-10)
+```
+
+
+## Pregunta 6
+Tomando el vector vec = c(0,9,98,2,6,7,5,19,88,20,16,0), dad 3 opciones diferentes para calcular el subvector c(9,19,20,16)
+
+Tomando el vector vec definido en el apartado anterior, buscad
+
+    - qué entradas son pares
+
+    - qué entradas no son pares y mayores que 20
+
+    - dónde toma vec su valor máximo
+
+    - dónde toma vec sus valores mínimos
+    
+```{r}
+vec = c(0,9,98,2,6,7,5,19,88,20,16,0)
+res = c(vec[2],vec[8],vec[10],vec[11])
+res
+
+res2 = vec[c(2,8,10,11)]
+res2
+res3 = vec[vec>8 & vec<21]
+res3
+
+vec[vec%%2 == 0]
+vec[vec%%2 != 0 & vec > 20]
+vec==max(vec)
+vec==min(vec)
+```
+
+    
+# PDF de preguntas
+
+## Pregunta 7 (PDF)
+Dad la entrada (2,2) de A · (A + A) · A, con 
+$$A=\left(\begin{matrix} 1 & 3 \\ 2 & 4\end{matrix}\right)$$
+```{r}
+A = matrix(1:4,nrow=2)
+A
+R = A%*%(A+A)%*%A
+R[2,2]
+```
+
+
+## Pregunta 8 (PDF)
+Dad los valores propios de la matriz
+$$B=\left(\begin{matrix} 2 & 4 & -6 \\ 0 & 0 & 3 \\ 0 & -2 & 5\end{matrix}\right)$$
+```{r}
+B = matrix(c(2,0,0,4,0,-2,-6,3,5),nrow=3)
+B
+eigen(B)$values
+```
+
+
+## Pregunta 9 (PDF)
+Dad, redondeando a 3 cifras decimales, los vectores propios de la matriz
+$$C=\left(\begin{matrix} -48 & 35 & -12 \\ -124 & 95 & -32 \\ -194 & 133 & -44\end{matrix}\right)$$
+```{r}
+C = matrix(c(-48,-124,-194,35,95,133,-12,-32,-44),nrow=3)
+C
+eigen(C)$vectors
+round(eigen(C)$vectors,3)
+```
+
+## Pregunta 10 (PDF)
+Dad el rango de la matriz
+$$D=\left(\begin{matrix} -2 & -8 & -2 & 3 \\ -3 & -6 & -1 & 2 \\ -9 & -22 & -3 & 7 \\ -18 & -44 & -8 & 15\end{matrix}\right)$$
+```{r}
+D = matrix(c(-2,-3,-9,-18,-8,-6,-22,-44,-2,-1,-3,-8,3,2,7,15),nrow=4)
+D
+qr(D)$rank
+```
+

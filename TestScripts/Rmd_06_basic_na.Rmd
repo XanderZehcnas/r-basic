@@ -1,0 +1,57 @@
+---
+title: "Valores NA"
+author: "ASR"
+date: "10/3/2021"
+output: html_document
+---
+
+# Valores NA
+Aquellos valores que no tienen respuesta o no existen al acceder a ellos.
+Tambien si se incorporan valores fuera de rango y quedan otros huecos.
+```{r}
+x = c(1:10)
+x[11]
+x[length(x)+5] = 12
+x
+```
+
+Operaciones con NA bloquean el resto de operaciones:
+```{r}
+sum(x)
+prod(x)
+```
+
+Se pueden obviar/quitar los NA en las operaciones con parámetroi específico:
+```{r}
+sum(x,na.rm = TRUE)
+prod(x,na.rm = TRUE)
+```
+
+Algunas funciones no lo tienen. Como cumsum que desde que encuentra un NA no sigue o da error:
+```{r}
+cumsum(x)
+cumsum(x[!is.na(x)])
+```
+
+
+El NA no se puede comprobar directamente. Which no encuentra donde hay NA.
+```{r}
+which(x==NA)
+which(is.na(x))
+```
+
+Se suelen tratar de cambiar por medias o un valor aceptable:
+```{r}
+y=x
+y[is.na(y)] = mean(y,na.rm=TRUE)
+y
+```
+
+NA se puede eliminar pero no es recomendable. La limpieza mantiene atributos internos dsobre la operación realizada que pueden mantenerse o limpiarse:
+```{r}
+x_clean = na.omit(x)
+x_clean
+attr(x_clean,"na.action") = NULL
+x_clean
+```
+

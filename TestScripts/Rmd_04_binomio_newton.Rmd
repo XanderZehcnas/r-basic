@@ -1,0 +1,32 @@
+---
+title: "Binomio de Newton"
+author: "ASR"
+date: "10/3/2021"
+output: html_document
+---
+
+# Ejercicio de Binomio de Newton
+
+## Producto notable
+La formula del producto notable es:
+
+$$(a+b)^2=a^2+b^2+2ab$$
+
+Función con R:
+```{r}
+prodnotable = function(a,b) {
+  a^2+b^2+2*a*b
+}
+prodnotable(3,5)
+```
+
+## Binomio de Newton
+
+$$(a+b)^n=\sum_{k=0}^n {n\choose k}\cdot a^{n-k}\cdot b^k$$
+```{r}
+binomioNewton = function (a,b,n) {
+  cumsum(choose(n,(0:n))*a^(n-(0:n))*b^(0:n))[n+1]
+}
+binomioNewton(2,3,4)
+```
+

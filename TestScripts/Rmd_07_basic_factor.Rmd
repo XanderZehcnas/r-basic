@@ -1,0 +1,73 @@
+---
+title: "Factores"
+author: "ASR"
+date: "10/3/2021"
+output: html_document
+---
+
+# Factores
+
+Incorpora niveles/levels (que podrían ser etiquetas)
+```{r}
+nombres = c("Maria","Juan", "Roberto", "Juan", "Maria", "Rebeca","Juan")
+nombres
+
+nombres.factor = factor (nombres)
+nombres.factor
+```
+
+Se puede especificar los niveles del factor:
+
+```{r}
+gender = c("M","M","M","M")
+gender.fact = factor(gender,levels=c("M","H"))
+gender.fact2 = as.factor(gender)
+gender.fact
+```
+
+Se pueden consultar directamente los niveles del factor:
+```{r}
+levels(gender.fact)
+```
+
+Se pueden ajustar los nombres de los levels:
+```{r}
+notas = c(1,2,3,4,2,3,2,1,2,3,4,1,2,3)
+notas
+notas.factor = factor(notas)
+notas.factor
+levels(notas.factor) = c("Suspendido","Suficiente","Notable","Excelente")
+notas.factor
+notas
+```
+
+Se pueden agrupar por niveles:
+```{r}
+levels(notas.factor) = c("Suspendido","Aprobado","Aprobado","Aprobado")
+notas.factor
+```
+
+Posibilidad de ordenación de los niveles de los factores:
+```{r}
+notasOrd = ordered(notas, labels = c("Sus","Suf","Not","Exc"))
+notasOrd
+```
+
+# Listas
+Para disponer de conjuntos con valores diferentes.
+```{r}
+x = c(1,5,-2,6,-7,8,-3,4,-9)
+L = list(nombre="temperaturas", datos = x, media = mean(x),sumas = cumsum(x))
+L
+L[[2]]
+L$nombre
+str(L)
+names(L)
+```
+
+### Ejemplo con un modelo lineal:
+```{r}
+reg <- lm(c(1,2,3,4)~c(1,2,3,6))
+reg$coefficients
+```
+

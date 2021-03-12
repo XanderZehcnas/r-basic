@@ -1,0 +1,85 @@
+---
+title: "Ejercicios Latex"
+author: "ASR"
+date: "11/3/2021"
+output: html_document
+---
+
+Realizad los siguientes productos de matrices siguiente en R:
+
+$$A \cdot B$$
+
+$$B \cdot A$$
+
+$$(A \cdot B)^{t}$$
+
+$$B^{t} \cdot A$$
+
+$$(A \cdot B)^{-1}$$
+
+$$A^{-1} \cdot B^{t}$$
+
+
+Donde:
+
+
+$$ A = \begin{equation*}\begin{pmatrix}1 & 2 & 3 & 4\\ 4 & 3 & 2 & 1\\ 0 & 1 & 0 & 2 \\ 3 & 0 & 4 & 0\end{pmatrix}\end{equation*}$$
+
+$$ B = \begin{equation*}\begin{pmatrix}4 & 3 & 2 & 1\\ 0 & 3 & 0 & 4\\ 1 & 2 & 3 & 4 \\ 0 & 1 & 0 & 2\end{pmatrix}\end{equation*}$$
+```{r}
+A = matrix(c(1,4,0,3,2,3,1,0,3,2,0,4,4,1,2,0),nrow=4)
+B = matrix(c(4,0,1,0,3,3,2,1,2,0,3,0,1,4,4,2),nrow=4)
+A%*%B
+B%*%A
+t(A%*%B)
+t(B)%*%A
+solve(A%*%B)
+round(solve(A)%*%t(B),4)
+```
+
+## Pregunta 2
+Considerad en un vector los números de vuestro DNI y llamadlo dni. Por ejemplo, si vuestro DNI es 54201567K, vuestro vector será
+
+$$dni = (5, 4, 2, 0, 1, 5, 6, 7)$$
+
+Definid el vector en R. Calculad con R el vector dni al cuadrado, la raíz cuadrada del vector dni y, por último,
+
+la suma de todas las cifras del vector dni.
+
+Finalmente, escribid todos estos vectores también a \LATEX
+
+```{r}
+dni = c(5, 4, 2, 0, 1, 5, 6, 7)
+dni^2
+sqrt(dni)
+sum(dni)
+```
+Resultados:
+$$dni^2 = (25, 16, 4, 0, 1, 25, 36, 49)$$
+$$\sqrt{dni} = (2.23, 2, 1.41, 0, 1, 2.23, 2.44, 2.64)$$
+
+$$\sum{dni}=30$$
+
+# Pregunta 3:
+Considerad el vector de las letras de vuestro nombre y apellido. Llamadlo name. Por ejemplo, en mi caso sería
+
+$$name = (M, A, R, I, A, S, A, N, T, O, S)$$
+
+Definid dicho vector en R. Calculad el subvector que solo contenga vuestro nombre. Calculad también el
+
+subvector que contenga solo vuestro apellido. Ordenadlo alfabéticamente. Cread una matriz con este vector.
+
+Redactad todos vuestros resultados y utilizad LATEX cuando pertoque
+```{r}
+name = c("A","L","E","X","G","O","M","E","Z")
+nombre = name[1:4]
+apellido = name[5:9]
+ordered = name[order(name)]
+ordered
+A = matrix(name,nrow=3)
+A
+```
+$$nombre = (A,L,E,X)$$
+$$apellido = (G,O,M,E,Z)$$
+$$ordered = (A,E,E,G,L,M,O,X,Z)$$
+$$A = \left(\begin{matrix}A & X & M \\ L & G & E \\ E & O & Z\end{matrix}\right)$$

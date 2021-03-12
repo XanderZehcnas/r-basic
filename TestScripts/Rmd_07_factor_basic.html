@@ -1,0 +1,26 @@
+---
+title: "Factores"
+author: "ASR"
+date: "10/3/2021"
+output: html_document
+---
+
+# Factores
+
+Incorpora niveles/levels (que podrían ser etiquetas)
+```{r}
+nombres = c("Maria","Juan", "Roberto", "Juan", "Maria", "Rebeca","Juan")
+nombres
+
+nombres.factor = factor (nombres)
+nombres.factor
+```
+
+Se puede especificar los niveles del factor:
+
+```{r}
+gender = c("M","M","M","M")
+gender.fact = factor(gender,levers=c("M","H"))
+gender.fact2 = as.factor(gender)
+gender.fact
+```

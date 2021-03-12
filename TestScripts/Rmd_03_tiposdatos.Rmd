@@ -1,0 +1,120 @@
+---
+title: "Tipos de Datos"
+author: "ASR"
+date: "9/3/2021"
+output: html_document
+---
+
+# Tipos de datos
+
+## Vectores
+
+```{r}
+c(1,2,3)
+```
+
+```{r}
+rep("Hello",7)
+```
+
+fix(x) permite corregir en directo una variable incorporando otro valor, para ello en la ejecución sale el editor:
+```{r}
+nombres <- c("Ana","Luis", "Alex")
+nombres
+```
+
+scan() permite leer parametros de eentrada, de un fichero, de un dataframe, etc.
+
+### Prueba de ejercicios
+Repetir año de nacimiento:
+```{r}
+rep(1977,10)
+```
+
+Vector con un conjunto de entradas y corrección del mismo:
+```{r}
+vec <- c(16,0,1,20,1,7,88,5,1,9)
+fix(vec)
+vec
+```
+
+## Progresiones y secuencias
+### Progresión aritmética
+Wiki: [Progresiones aritméticas](https://es.wikipedia.org/wiki/Progresi%C3%B3n_aritm%C3%A9tica)
+Se pueden crear con seq(init,end,d). Si se pasa se genera hasta donde cabe.
+```{r}
+seq(5,60,by=5)
+seq(5,62,by=5)
+seq(4,35,length.out = 7)
+seq(4,length.out = 7, by=3)
+```
+
+Secuencia de numeros consecutivos con a:b:
+```{r}
+25:-2
+```
+
+## Concatenar
+c() permite concatenar. Es su funcion original:
+```{r}
+c(rep(pi,3),5:10,8)
+```
+
+### Prueba de ejercicios
+Imprimir del 1 al 20:
+```{r}
+1:20
+```
+Imprimir los primeros 20 numeros pares:
+```{r}
+seq(0,length.out=20, by=2)
+```
+Imprimir 30 num equidistantes entre 17 y 98 mostrando solo 4 cifras significativas.
+```{r}
+d = round((98-17)/31,4)
+seq(17+d,98,by=d)
+```
+
+## Operaciones con vectores
+Se puede operar con todos los elementos con operaciones directas o aplicar una función con sapply:
+```{r}
+x <- c(5:20)
+x/2
+sapply(x,sqrt)
+```
+
+Prueba con función:
+```{r}
+cd = function(x){ summary(lm((1:4)~(c(1:3,x))))$r.squared}
+cd(5)
+sapply(x,cd)
+```
+
+Se pueden operar con vectores:
+```{r}
+(1:10)*(1:10)
+```
+
+```{r}
+n = (1:100)
+x = 2^3*(n-1)
+x
+```
+
+### Operaciones comunes
+```{r}
+cuadrado = function(x) {x^2}
+v = c(1,2,3,4,5,6)
+sapply(v,cuadrado)
+mean(v)
+cumsum(v)
+```
+
+### Prueba de ejercicios
+Dado vector x devolver orden descreciente:
+```{r}
+vect = c(23,4,23,6,7,134,76,67,34)
+sort(vect,decreasing = TRUE)
+```
+
+

@@ -1,0 +1,162 @@
+---
+title: "Ejercicios Estructuras Python"
+author: "ASR"
+date: "11/3/2021"
+output: html_document
+---
+
+1. Crea una función que reciba los tres coeficientes a, b y c para resolver una ecuación de segundo grado. Muestra la solución por pantalla y ayúdate de la librería Math para acceder a la función raíz cuadrada.
+
+
+```{python}
+import math
+def resolverEcuacion(a,b,c):
+  r1 = (-b + math.sqrt(b**2-4*a*c))/2*a
+  r2 = (-b - math.sqrt(b**2-4*a*c))/2*a
+  print("Solución 1: " + str(r1))
+  print("Solución 2: " + str(r2))
+resolverEcuacion(2,6,3)
+resolverEcuacion(2,6,-1)
+```
+
+
+2.Crea una función que lea una frase de teclado y nos diga si es o no un palíndromo (frase que se lee igual de izquierda a derecha o al revés como por ejemplo La ruta nos aportó otro paso natural.)
+```{python}
+def isPalindrono(string):
+  txt = string.replace(" ","").replace("á","a").replace("é","e").replace("í","i").replace("ó","o").replace("ú","u").lower()
+  for i in range(0,math.floor(len(txt)/2)):
+    if (txt[i]!=txt[(len(txt)-i-1)]):
+      return False
+  return True
+isPalindrono("La ruta nos aportó otro paso natural")
+  
+```
+
+
+3.Crea un diccionario que tenga por claves los números del 1 al 10 y como valores sus raíces cuadradas
+```{python}
+dict = {}
+for i in range(10):
+  dict[i] = math.sqrt(i)
+dict
+```
+
+
+4.Crea un diccionario que tenga como claves las letras del alfabeto castellano y como valores los símbolos del código morse (los tienes todos en la Wikipedia). A continuación crea un programa que lea una frase del teclado y te la convierta a Morse utilizando el diccionario anterior.
+```{python}
+codigo = {
+    'A': '.-',     'B': '-...',    'C': '-.-.',
+    'D': '-..',    'E': '.',       'F': '..-.',
+    'G': '--.',    'H': '....',    'I': '..',
+    'J': '.---',   'K': '-.-',     'L': '.-..',
+    'M': '--',     'N': '-.',      'O': '---',
+    'P': '.--.',   'Q': '--.-',    'R': '.-.',
+    'S': '...',    'T': '-',       'U': '..-',
+    'V': '...-',   'W': '.--',     'X': '-..-',
+    'Y': '-.--',   'Z': '--..',    '1': '.----',
+    '2': '..---',  '3': '...--',   '4': '....-',
+    '5': '.....',  '6': '-....',   '7': '--...',
+    '8': '---..',  '9': '----.',   '0': '-----',
+    '.': '.-.-.-', ',': '--..--',  ':': '---...',
+    ';': '-.-.-.', '?': '..--..',  '!': '-.-.--',
+    '"': '.-..-.', "'": '.----.',  '+': '.-.-.',
+    '-': '-....-', '/': '-..-.',   '=': '-...-',
+    '_': '..--.-', '$': '...-..-', '@': '.--.-.',
+    '&': '.-...',  '(': '-.--.',   ')': '-.--.-'
+}	
+def traduce(string):
+  for letra in string:
+    if (letra in codigo):
+      print(codigo[letra]+" ")
+traduce("HOLA MUNDO")
+```
+
+
+5.Crea una función que dados dos diccionarios nos diga que claves están presentes en ambos.
+```{python}
+def coincidentes(a,b):
+  c = list()
+  for key in a:
+    if (key in b):
+      c.append(key)
+  print(c)
+dictA = {"Name":"John","Age":12,"Legs":2, "Arms":2, "Head":True}
+dictB = {"Name":"Peter","Age":8,"Piernas":2,"Brazos":2,"Head":True}
+coincidentes(dictA,dictB)
+```
+
+6.Crea una función que dado un número N nos diga si es primo o no (tiene que ir dividiendo por todos los números x comprendidos entre 2 y el propio número N menos uno y ver si el cociente de N/x tiene resto entero o no).
+
+```{python}
+def isPrimo(x):
+  if (x%2 == 0):
+    return False
+  for i in range(3,x,2):
+    if (x%i==0):
+      return False
+  return True
+isPrimo(13)
+isPrimo(963)
+isPrimo(17)
+```
+
+7.Investiga la documentación de la clase string y crea un método que lea una frase del teclado y escriba la primera letra de cada palabra en Mayúscula.
+```{python}
+def transformCapitals(string):
+  words = string.split(" ")
+  result = ""
+  for word in words:
+    result += word.capitalize() + " "
+  return result
+
+transformCapitals("hello this a sentence to capitalize")
+```
+
+
+8.Crea una función que calcule el máximo común divisor de dos números introducidos por el usuario por teclado.
+```{python}
+num1 = 35 #input("1º Num:")
+num2 = 21 #input("2º Num:")
+math.gcd(num1,num2)
+```
+
+
+9.Investiga el Cifrado del César y crea una función que lo reproduzca en Python. Cada letra del mensaje original se desplaza tres posiciones en el alfabeto estándar. La A se convierte en la D, la B se convierte en la E, la C se convierte en la F... y cuando se acaba el alfabeto se le vuelve a dar la vuelta: la X se convierte en la A, la Y en la B y la X en la C. Los números no sufren ninguna modificación.
+```{python}
+def cifradoCesar(string):
+  letras = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+  dict = {}
+  for letra in letras:
+    newind = letras.find(letra)+3
+    if (newind>=len(letras)):
+      newind -= len(letras)
+    dict[letra] = letras[newind]
+  result = "";
+  for letra in string:
+    if (letra in dict):
+      result += dict[letra]
+    else:
+      result += letra
+  return result
+cifradoCesar("HEMOS CONVOCADO 2 LEGIONES CON SUS RESPECTIVOS CENTURIONES")
+```
+
+
+10.Dado una lista de nombres de persona, escribe un algoritmo que los ordene de tres formas diferentes:
+
+A. De forma alfabética
+
+B. De forma alfabética invertida
+
+C. De nombre más corto al más largo.
+
+```{python}
+lnames = ["Ana","Pedro","Zacarias","Juan","Nuria","Antonia","Paula"]
+lnames.sort()
+lnames
+lnames.reverse()
+lnames
+lnames = sorted(lnames,key = len)
+lnames
+```
+

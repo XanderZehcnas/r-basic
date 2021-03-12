@@ -1,0 +1,63 @@
+---
+title: "Documentación Texto"
+author: "ASR"
+date: "9/3/2021"
+output: pdf_document
+---
+
+# Título 1 
+Texto normal sólo necesita escribirse sin incorporar ninguna señal.
+La R se puede hacer como código `R`
+LaTeX se puede poner como el logo mediante \LaTeX
+
+## Título 2
+Texto en *cursiva* o mediante barra baja tambien en _cursiva_. Con * o _.
+
+En **negrita** o __negrita__ con ** o __.
+
+Superindices x^2^ con ^ para que los considere.
+
+Para tachar una palabra usamos la dobre tilde ~~texto tachado~~
+
+Para un link se pone [Google](http://google.es)
+
+### Título 3
+endash: -- o mas relevante ---
+
+elipsis: ...
+
+ecuaciones en linea con $x+2=y$
+
+
+
+***
+
+Aquí empezamos otra cosa.
+
+> Cita en bloque.
+
+#### Listas
+
+No ordenadas:
+
+* Item
+* Item2
+    * subitem 2.1
+    * subitem 2.2
+* Item 3
+
+Ordenadas
+1. Primer Item
+2. Segundo Item
+    + Subitem
+    + Subitem
+3. Tercer Item
+
+##### Tablas
+
+Alumno        |       Nota
+--------------|-----------------
+Juan          |  3.5
+Pedro         |  7
+
+###### Título 6
