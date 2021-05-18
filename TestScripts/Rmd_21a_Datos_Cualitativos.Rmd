@@ -1,0 +1,93 @@
+---
+title: "Datos_Cualitativos"
+author: "ASR"
+date: "24/4/2021"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Datos cualitativos
+Se usan Vectores de palabras o si es para clasificar en factores.
+No les aplica la aritmedica aunque se representen por un número (No sirve para hacer > que o < que o similar)
+Niveles: Los diferentes valores del dato cualitativo. Ej. H y M en sexo.
+
+Se calcula:
+•	Frecuencia absoluta: Nº Total.
+•	Frecuencia relativa: % del Total.
+•	La moda es el nivel de mayor frecuencia
+
+
+## Tablas de contingencia
+```{r}
+x= sample(1:8,size=12,replace=TRUE)
+Respuestas=factor(sample(c("Sí","No"),size=12,replace=TRUE))
+x
+Respuestas
+table(x)
+table(Respuestas)
+```
+
+Para que todos los niveles se muestran se han de convertir en factor:
+```{r}
+z = factor(x,levels=1:8)
+table(z)
+table(z)[3]
+table(z)["6"]
+```
+
+## Frecuencias relativas
+Se usa prop.table de una variable de tipo table
+Prop.table toma frecuencias absolutas para calcular la relativa, si le metes un vector cualquiera lo identificará como frecuencias de otros valores y calculará sobre ello.
+
+$$f_i = \frac{n_i}{n}$$
+```{r}
+prop.table(table(z))
+```
+Es lo mismo que hacerlo manualmente:
+```{r}
+table(z)/length(z)
+```
+
+Usar instrucciones para sacar la moda
+```{r}
+names(which(table(x)==max(table(x))))
+```
+
+## Ejercicios con valores H y M
+```{r}
+x= c(rep("H",6), rep("M",14))
+table(x)
+prop.table(table(x))
+names(which(table(x)==max(table(x))))
+```
+
+
+## Pie charts
+```{r}
+pie(table(x),main="Título!")
+```
+
+## Gráfico de Mosaico
+Se puede hacer para tablas bidimensionales y tambien para multidimensionales.
+```{r}
+Sexo= sample(c("H","M"),size=12,replace=TRUE)
+Respuestas=factor(sample(c("Sí","No"),size=12,replace=TRUE))
+plot(table(Sexo,Respuestas),main="Gráfico de Mosaico")
+```
+
+Multidimensional
+```{r}
+plot(HairEyeColor,col=c("pink","lightblue"),main="T.Multidimensional")
+```
+
+## Otros paquetes gráficos
+Paquetes vcd y vcdExtra (No están los paquetes)
+Se utiliza mucho tidyverse y ggplot
+
+
+

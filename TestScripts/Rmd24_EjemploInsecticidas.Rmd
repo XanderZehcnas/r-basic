@@ -1,0 +1,33 @@
+---
+title: "Ejemplo Insecticidas"
+author: "ASR"
+date: "11/5/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Ejemplo Insecticidas
+
+Cargamos dataset InsectSprays
+```{r}
+data = InsectSprays
+head(data)
+str(data)
+```
+
+Tiene factor con tipo de spray y el recuento de insectos eliminados.
+
+Sacamos el summary de cada tipo de spray
+```{r}
+by(data$count,data$spray,FUN=summary)
+```
+
+Revisamos la desviación típica de cada tipo
+```{r}
+aggregate(count~spray,data = data, FUN = sd)
+boxplot(count~spray,data = data, xlab="Tipo de spray", ylab="Nº Insectos",col="lightgreen")
+```
+

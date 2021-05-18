@@ -1,0 +1,52 @@
+---
+title: "Ejercicio Dataframes"
+author: "ASR"
+date: "22/3/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+medals_df = read.csv("D:\\desarrollo\\MyLearning\\R\\data\\medals.csv")
+str(medals_df)
+```
+
+
+¿Cuantos deportistas aparecen en el data frame?
+```{r}
+nrow(medals_df)
+```
+
+¿Cuantos han ganado medallas de oro, cuantos de plata y cuantos de bronce?
+```{r}
+summary(medals_df$Medal)
+```
+
+
+¿En cuantos lugares se han hecho olimpiadas de invierno?
+```{r}
+str(medals_df$City)
+summary(medals_df$City)
+```
+
+
+¿Cuantos hombres y cuantas mujeres hay?
+```{r}
+summary(medals_df$Event.gender)
+```
+
+¿En qué año participaron más deportistas?
+```{r}
+medals_df2 = medals_df
+medals_df2$Year = as.factor(medals_df2$Year)
+summary(medals_df2$Year)
+```
+
+El campo NOC indica el país del ganador de la medalla. ¿Qué país puede presumir de haber ganado más medallas de oro en los juegos de invierno entre 1960 y 1996?
+```{r}
+summary(medals_df[medals_df$Year>=1960 & medals_df$Year<=1996,]$NOC)
+```

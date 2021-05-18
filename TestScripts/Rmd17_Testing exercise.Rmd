@@ -1,0 +1,17 @@
+---
+title: "Tests Estadistica Descriptiva"
+author: "ASR"
+date: "6/5/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+str(DNase)
+head(DNase)
+density = DNase$density
+barplot(table(DNase$density),beside=TRUE)
+```
+

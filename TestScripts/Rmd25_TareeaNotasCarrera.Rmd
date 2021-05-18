@@ -1,0 +1,59 @@
+---
+title: "Estudio de notas segun carrera"
+author: "ASR"
+date: "11/5/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Ejercicios de notas segun carrera.
+Carga el conjunto de datos de la carpeta data llamado grades.txt en R y responde a las siguientes preguntas
+```{r}
+data = read.table("../data/grades.txt",header=TRUE)
+head(data)
+str(data)
+```
+
+Calcula la media, la mediana y la moda redondeada a dos cifras decimales de las notas numéricas de los exámenes tanto de forma conjunta como por estudio universitario. ¿En qué grupo observamos la nota más alta? ¿Qué grupo está por encima de la media de estudiantes?
+```{r}
+mean(data$nota)
+median(data$nota)
+```
+
+```{r}
+by(data,data$estudio,FUN=summary)
+```
+La nota más alta en "Industrial"
+Por encima de la media está Informática y Mates.
+
+¿En qué grupo observamos más variación de notas? Justifica tu respuesta
+```{r}
+aggregate(nota~estudio,data=data,FUN = sd)
+```
+La desviación típica de Mates es la mayor, aunque el rango mayor se vea en Industriales.
+
+¿Hay mucha diferencia entre el grupo que has respondido en el ejercicio 1 y en el ejercicio 2? Intenta dar una explicación objetiva del suceso
+
+En variabilidad están parecido aunque la media es bastante mayor la de mates, viendo tambieen el boxplot se ve que en Industrial el máximo es un outlier que hace que parte de los cálculos anteriores se vea afectados subiendo las medias.
+
+
+
+Dibuja en un único gráfico los cuatro diagramas de caja, uno para cada grupo. Añade así mismo la nota media, pon nombre, título y color al gráfico para documentar el gráfico correctamente.
+```{r}
+boxplot(nota~estudio,data = data,main="Notas por estudios",col="orange")
+means = aggregate(nota~estudio,data=data,FUN = mean)
+points(means,col="red",pch=20)
+```
+
+¿Observas algunos valores atípicos en el boxplot anterior? ¿A qué grupo pertence?
+Hay 3 outliers. En industrial (el mayor de todos), en Telematica e Informática.
+
+Indica a partir del boxplot anterior en qué grupo observamos más variedad de notas.
+Se ve más variedad de notas en Mates.
+
+En base a todo lo anterior, ¿puedes afirmar de forma estadística que el examen de carrera ha ido mejor en algún estudio que en los demás?
+Mates presenta los mejores resultados medios aunque una alta variabilidad.
+Por contra Informática presenta los mejores resultados mínimos y tambien por encima de la media, pero con una menor variabilidad

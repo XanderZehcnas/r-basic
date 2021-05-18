@@ -1,0 +1,78 @@
+---
+title: "16. Datos HairEyeColor"
+author: "ASR"
+date: "26/4/2021"
+output: html_document
+---
+
+# Ejemplo multivariante con un dataset de R
+HairEyeColor ya es una talba de frecuencias
+```{r}
+sum(HairEyeColor) -> total
+```
+
+El total de individuos es `r total`.
+
+## Frecuencias Marginales
+```{r}
+prop.table(HairEyeColor, margin=3)
+prop.table(HairEyeColor, margin=c(1,2))
+```
+
+## Visualización mejorada
+```{r}
+library(xtable)
+xtable(HairEyeColor[,,"Male"])
+```
+
+Libraría kable no encontrada!
+
+## Cambiar orden de las columnas de tablas de frecuencias
+```{r}
+aperm(HairEyeColor, perm = c("Sex","Hair","Eye"))
+```
+
+
+# Trabajando con dataframes
+```{r}
+Beb_Energ = read.table("D:\\Desarrollo\\MyLearning\\R\\r-basic\\data\\EnergyDrink",header=TRUE)
+str(Beb_Energ)
+head(Beb_Energ,4)
+```
+
+Frecuencias absolutas en dataframe se pueden sacar con summary para casos con factores. Devuelve solo textos para verlos no para usarlos.
+```{r}
+summary(Beb_Energ)
+```
+
+Frecuencias absolutas:
+```{r}
+apply(Beb_Energ,MARGIN=2, FUN=table)
+apply(Beb_Energ,MARGIN=2, FUN=table)$sexo
+```
+
+Equivalente sería:
+```{r}
+table(Beb_Energ$sexo)
+table(Beb_Energ)
+table(Beb_Energ[c(1,3)])
+ftable(Beb_Energ)
+```
+
+## Usando gráficos de barras para la visualización
+El más utilizado se usan bar plots.
+Se necesitara una tabla de frecuencias para aplicar n barplot.
+```{r}
+barplot(table(Beb_Energ[c(1,3)]),main="Gráfico de 2 de las columnas",col=c("lightblue","pink","red","green","lightgreen"),legend.text=TRUE)
+barplot(prop.table(table(Beb_Energ[c(1,3)])),main="Gráfico de 2 de las columnas con frecuencia relativa",col=c("lightblue","pink","red","green","lightgreen"),legend.text=TRUE)
+barplot(table(Beb_Energ[c(1,3)]),main="Gráfico de 2 de las columnas",col=c("lightblue","pink","red","green","lightgreen"),legend.text=TRUE,beside=TRUE)
+```
+
+Otros ejemplos:
+```{r}
+Respuestas = factor(sample(c("Si","No"), size = 100, replace = TRUE))
+Sexo = sample(c("H","M"), size = length(Respuestas), replace = T)
+barplot(table(Respuestas))
+barplot(prop.table(table(Sexo)))
+```
+

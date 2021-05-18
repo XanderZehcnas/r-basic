@@ -1,0 +1,86 @@
+---
+title: "Datos Cuantitativos Agrupados"
+author: "ASR"
+date: "12/5/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Datos Cuantitativos agrupados
+
+```{r}
+pesos = c(50.2,50.5,50.7,53,53,57,60,60.5,61,67,67.5,68.5,69,69.3,71,72,73,75,77,77.8,78)
+barplot(pesos) # Tal cual no dice nada. Hay que agruparlos
+```
+
+Agrupando decidiendo el num de intervalos, la amplitud de los intervalos, acumular extremos de los intervalos y calcular el valor representativo del intervalo. Su marca de clase. Usando hist().
+
+Para los intervalos (k) a calcular se pueden hacer de distintas formas (k num grupos a dividir):
+- Regla de la raiz cuadrada: $k=[\sqrt{n}]$
+- Regla de Sturges: $k = [1+log_2(n)]$
+- Regla de Scott: Indica amplitud teórica.
+$$A_s=3.5\cdot\tilde{s}\cdot n^{-1/3}$$
+donde $\tilde{s}$ es la desviación típica muestral
+$$k=\left[\frac{max(x)-min(x)}{A_s}\right]$$
+- Regla de Freedman-Diaconis: 1º Amplitud teórica Afd y luego k.
+$$A_{FD} = 2\cdot(Q_{0.75}-Q_{0.25})\cdot n^{-1/3}$$
+$$k=\left[\frac{max(x)-min(x)}{A_{FD}}\right]$$
+
+Ahora hay que definir la amplitud (A). Se puede dividir el rango entre k.
+Si da exacto tomaremos A+una unidad de precision.
+
+Con amplitud se calculan los extremos. [L1,L2)[L2,L3) ...
+Ej: El L2 está incluido en el grupo de la derecha no en el izquierdo.
+$$L_1=min(x)-precision/2$$
+$$L_2 = L_1+A$$
+$L_i = L_1 + (i-1)A$ con $i=2,...,k+1$
+
+Las marcas de clase están entre los intervalos siendo el punto intermedio.
+$$X_1 = \frac{L_1+L_2}{2}$$
+
+## Ejemplo práctico
+
+### Calculo del numero de elementos con distintos metodos
+```{r}
+datacrab = read.table("../data/datacrab.txt",header=TRUE)
+str(datacrab)
+cw = datacrab$width
+n = length(cw)
+k1 = ceiling(sqrt(n)) # Regla Raiz cuadrada
+k2 = ceiling(1+log(n,2))  fd# Sturges - nclass.Sturges(cw)
+As = 3.5*sd(cw)*n^(-1/3) # Scott - scott(cw)
+k3 = ceiling(diff(range(cw))/As)
+Afd = 2*(quantile(cw,0.75,names=FALSE)-quantile(cw,0.25,names=FALSE))*n^(-1/3)
+k4 = ceiling(diff(range(cw))/Afd) # nclass.FD(cw)
+
+```
+Regla raiz cuadrada k = `r k1`
+
+Regla Sturges k = `r k2`
+
+Regla Scott k = `r k3`
+
+Regla Freedman-Diaconis k = `r k4`
+
+### Calculo de los intervalos (Regla Scott)
+```{r}
+A = diff(range(cw)) / k3
+A # Redondeamos al nivel de precisión que usamos. Si lo hacemos con un milimetro pues cambiamos a 1.3 (Para mantener la precisión de los datos)
+```
+Redondeamos al nivel de precisión que usamos. Si lo hacemos con un milimetro pues cambiamos a 1.3 para mantener la precisión de los datos.
+A=1.3
+
+### Calculo de Extremos
+```{r}
+A = 1.3
+L1 = min(cw)-1/2*0.1
+L = L1 + A*(0:k3)
+X = L1 + A/2 + A*(0:k3-1)
+L
+X
+```
+
+

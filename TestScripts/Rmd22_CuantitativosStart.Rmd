@@ -1,0 +1,185 @@
+---
+title: "Est. Descriptiva con datos cuantitativos"
+author: "ASR"
+date: "7/5/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Datos Cuantitativos
+Números y cuenta de objetos. Continuos o discretos.
+Se puedee usar Frec.Absoluta, relativa, acumulada y relativa.
+Además otras técnicas: media, ... y operaciones varias.
+
+### Frecuencias
+No se crean niveles. Se estudian solo las frecuencias observadas, no las no observadas. (Ej: No una persona de 108 años porque no la hay en los datos)
+```{r}
+edad = sample(10:45,size=20,replace=TRUE)
+table(edad)
+prop.table(table(edad))
+cumsum(table(edad))
+cumsum(prop.table(table(edad)))
+```
+
+## Usando notación matemática
+
+## Ejemplo con dados
+Se incorporan a data frame como vector para que no incorporen los niveles dado que ya lo incorporamos en Puntuacion.
+```{r}
+dados = sample(1:6,size=25,replace=TRUE)
+dados.df = data.frame(Puntuacion = 1:6,
+                      Fr.abs = as.vector(table(dados)),
+                      Fr.rel = as.vector(prop.table(table(dados))),
+                      Fr.acu = as.vector(cumsum(table(dados))),
+                      Fr.racu = as.vector(cumsum(prop.table(table(dados)))))
+dados.df
+```
+
+## Medidas de Centralización
+Media: Suma/Nº elementos es media aritmética y tb está la media armónica.
+Mediana: Elemento del centro de entre las observaciones. Si es par sería la media de los dos del centro si es impar el del centro. La primera que supera el 50% en frec relativa acumulada.
+Moda: Los valores que más se repite (Con mas frec absoluta o relativa)
+
+```{r}
+sort(edad)
+table(edad)
+sum(edad)/length(edad) # Media
+mean(edad)
+median(edad)
+as.numeric(names(which(table(edad)==max(table(edad))))) # Moda o modas en numerico
+```
+
+# Tipos de medias en matemáticas
+Todas las medias están entre el mínimo y el máximo.
+
+```{r}
+x = c(32,45,67,43,28,17,48,95)
+n = length(x)
+```
+- Media aritmética
+$$\bar{x} = \frac{1}{n}\sum_{i=1}^n x_i$$
+```{r}
+sum(x)/n
+```
+- Media aritmética ponderada
+Usando pesos a cada valor, los que tienen mas valor pueden ponderar más.
+$$\bar{x}_w = \frac{\sum_{i=1}^nw_i\cdot x_i}{\sum_{i=1}^n w_i}$$
+```{r}
+w = c(1,2,2,3,3,2,2,1)
+sum(x*w)/sum(w)
+```
+
+
+- Media geométrica
+Util cuando el conjunto de numeros se interpretan en orden de su producto y no de su suma. Por ejemplo velocidades de crecimiento.
+$$\bar{x}_G=\left(\prod_{i=1}^n x_i\right)^{1/n}$$
+```{r}
+prod(x)^(1/n)
+```
+
+- Media armónica
+Util para conjuntos de numeros que se definen en funcion de una unidad, por ejemplo velocidad (distancia por unidad de tiempo)
+$$\bar{x}_A=n*\left(\sum_{i=1}^n \frac{1}{x_i}\right)^{-1} = \frac{n}{\sum_{i=1}^n \frac{1}{x_i}}$$
+
+```{r}
+n/sum(1/x)
+```
+
+
+# Medidas de posición
+Qué valores dividen las observaciones en determinadas proporciones. Se llaman cuantiles.
+La mediana es un cuantil que divide llas observaciones en 2 grupos. 
+Hay más para hacer más divisiones $Q_p$. Este cuantil sería aquel que la frecuencia relativa acumulada es justo superior al valor p.
+La mediana sería $Q_{0.5}$
+
+```{r}
+count = 50
+dados = sample(1:4,count,replace=TRUE)
+dados = sort(dados)
+dados.df = data.frame(Puntuacion = 1:4,
+                      Fr.abs = as.vector(table(dados)),
+                      Fr.rel = as.vector(prop.table(table(dados))),
+                      Fr.acu = as.vector(cumsum(table(dados))),
+                      Fr.racu = as.vector(cumsum(prop.table(table(dados)))))
+dados.df
+```
+El cuantil 0.3 $Q_{0.3}$ sería el primer elemento que su frecuencua relativa acumulada es mayor de 0.3.
+```{r}
+posicion = round(0.3*count)
+dados[posicion]
+```
+Tienen los cuantiles con nombre propio:
+
+- Los cuartiles: $Q_{0.25}$, $Q_{0.5}$, $Q_{0.75}$
+- Los deciles: $Q_{0.1}$, $Q_{0.2}$, ... , $Q_{0.8}$, $Q_{0.9}$
+- Los percentiles: $Q_{0.01}$, $Q_{0.02}$, ... , $Q_{0.98}$, $Q_{0.99}$
+
+Se puede usar quantile(x,p) con un parametro type dado que hay 9 métodos diferentes de calcularlos.
+```{r}
+quantile(dados,0.3)
+quantile(dados,0.3,type=2)
+```
+
+# Medidas de dispersión
+Evaluar como de dispersos están los datos.
+- Rango: La diferencia del menor al mayor: max - min
+- Rango intercuartílico: $Q_{0.75}$ - $Q_{0.25}$
+- Varianza: Siempre es positiva o nula. Si $s^2=0$ es que todos los valores son iguales, no hay diferencias con la media.
+$$s^2 = \frac{\sum_{j=1}^n (x_j-\bar{x})^2}{n} = \frac{\sum_{j=1}^k n_j(X_i-\bar{x})^2}{n}=\sum_{j=1}^k f_j(X_j-\bar{x})^2$$
+
+Otra forma de calcularlo:
+$$s^2=\frac{\sum_{i=1}^n x_i^2}{n}-\bar{x}^2$$
+
+- Desviación típica: $s=\sqrt{s^2}$
+
+- Varianza muestral: Pendiente de revisar dado que tienen una variación con la varianza.
+$$\tilde{s}^2=\frac{n}{n-1}s^2=\frac{\sum_{j=1}^n (x_j-\bar{x})^2}{n-1}$$
+- Desviación típica muestral:$\tilde{s}=\sqrt{\tilde{s}^2}$
+```{r}
+range(dados) # Mínimo y máximo
+diff(range(dados)) # Rango
+IQR(dados) # Tiene varios tipos
+var(dados) # Varianza muestral
+sd(dados) # Desviación típica muestral
+var(dados)*(length(dados)-1)/length(dados) # Varianza
+sd(dados)*sqrt((length(dados)-1)/length(dados)) # Desviación típica
+```
+
+# Manipulación de datos cuantitativos con factor
+
+## Summary
+Obtener algunos valores (Min, Max, ...)
+```{r}
+cangrejos = read.table("../data/datacrab.txt",header=TRUE)
+cangrejos = cangrejos[-1]
+summary(cangrejos)
+summary(subset(cangrejos,color==3,c("weight","width")))
+summary(subset(cangrejos,color==5,c("weight","width")))
+```
+
+## By
+Aplicar una función a algunas columnas segmentándolas por un nivel de un factor
+by(columnas, factor, FUN = función)
+
+```{r}
+by(iris[,c(1,3)],iris$Species,FUN=summary) # Hacemos summary de cada specie de flor
+```
+
+## Aggregate
+Similar a by
+```{r}
+aggregate(cbind(Sepal.Length,Petal.Length)~Species, data=iris,FUN=summary)
+```
+
+## NA en los datos
+Si no queremos usarlos hay que añadir na.rm=TRUE
+```{r}
+s = c(1,2,3,NA)
+mean(s)
+mean(s,na.rm = TRUE)
+```
+
+

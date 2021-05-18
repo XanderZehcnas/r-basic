@@ -1,0 +1,38 @@
+---
+title: "Rmd29 Agruipacion datos por R"
+author: "ASR"
+date: "18/5/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Agrupacion Datos R (Función cut)
+Uso de cut.
+cut (x, breaks=..., labels=..., right=...)
+- breaks: k o un vector de divisiones. Mejor darle los limites de los elementos que el k, aunque tb se podría.
+- labels: Si queremos etiquetas en los datos (X1...)
+- right: Donde está cerrado. con right false el intervalo se queda cerrado izquierda [1,2)
+
+Usando ejemplo iris e incorporandolos como columnas si queremos como dato agrupado
+```{r}
+iris_df = iris
+petals = iris_df$Petal.Length
+iris_df$div1 = cut(petals,breaks=5,right=FALSE)
+iris_df$div2 = cut(petals,breaks=ceiling(sqrt(length(petals))),right=FALSE) # Regla raiz cuadrada
+iris_df$div3 = cut(petals,breaks=c(1,2,3,4,5,6,7),right=FALSE) #Se muestra el intervalo
+iris_df$div4 = cut(petals,breaks=c(1,2,3,4,5,6,7),right=FALSE, labels=FALSE) # Muestra numeros de los levels
+iris_df$div5 = cut(petals,breaks=c(1,2,3,4,5,6,7),right=FALSE, labels=c("Peq","Norm","Gran","XGran","Gigan", "Gigan2")) # Muestra los indicados
+iris_df
+```
+
+## Agrupación  usando otras funciones
+Nota: Los niveles se pueden marcar con: El intervalo, la marca (punto medio) o el orden
+cut es similar a factor que usabamos para crear factores en cualitativas.
+Una vez se han convertido en clases si estas están ordenadas (que lo están en general) podemos calcular las frecuencias (absolutas, relativas, ...)
+
+
+
+

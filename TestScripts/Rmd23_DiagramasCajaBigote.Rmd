@@ -1,0 +1,74 @@
+---
+title: "Diagramas de Caja y bigote"
+author: "ASR"
+date: "10/5/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+```
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Diagramas de caja
+Diagrama que muestra el mínimo, el 1º Quartil, Mediana, 3ºQuartil y máximo.
+Los bigotes llegan a 1.5 veces el rango interquartilico y en el caso de superarlo se queda ahí y los valores de fuera se llaman Outliers.
+$$b_inf = max(m,Q_{0.25}-1.5(Q_{0.75}-Q_{0.25})) $$
+```{r}
+dados = sample(1:20,100,replace=TRUE)
+boxplot(dados,main = "Un diagrama de caja")
+```
+
+### Ejemplo con body fat:
+```{r}
+body = read.table("../data/bodyfat.txt",header=TRUE)
+boxplot(body) # No se suele hacer porque no se dibujan los factores y puede haber dispariodad de los datos que hace que no se visualicen bien
+```
+
+### Ejemplo con Iris
+```{r}
+boxplot(iris[,1:4], col = "lightblue")
+
+```
+
+### Ejemplo dibujando para comparar
+```{r}
+boxplot(circumference~Tree, data=Orange,ylab="Circunferencia del tronco (mm)", main="Boxplot de los naranjos en función del tipo de arbol")
+boxplot(iris$Sepal.Length~iris$Species) ## Esta forma y la siguiente son lo mismo
+boxplot(Sepal.Length~Species,data=iris)
+```
+
+### Ejemplo cangrejos
+```{r}
+cangrejos = read.table("../data/datacrab.txt",header=TRUE)
+cangrejos = cangrejos[-1]
+boxplot(weight~color, data=cangrejos)
+boxplot(weight~color, data=cangrejos, notch=TRUE)
+```
+
+### Ejemplo agregando valores
+```{r}
+boxplot(Sepal.Length~Species,data=iris)
+medias = aggregate(Sepal.Length~Species,data=iris, FUN=mean)
+points(medias, col="pink", pch=15)
+```
+
+Para los cangrejos:
+```{r}
+mediacrab = aggregate(weight~color,data=cangrejos, FUN=mean)
+boxplot(weight~color, data=cangrejos, notch=TRUE)
+points(mediacrab, col="blue", pch=15)
+```
+
+## Estructura del Boxplot
+```{r}
+str(boxplot(weight~color, data=cangrejos, notch=TRUE))
+boxplot(weight~color, data=cangrejos, notch=TRUE)$stats
+```
+
+
+
+

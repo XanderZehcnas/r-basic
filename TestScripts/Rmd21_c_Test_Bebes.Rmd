@@ -1,0 +1,85 @@
+---
+title: "Test Bebes Recien Nacidos"
+author: "ASR"
+date: "1/5/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Recien Nacidos
+## 1.Utiliza str() y head() para explorar la estructura, y con help(), mirar el significado de cada variable.
+
+```{r}
+library(MASS)
+data <- MASS::birthwt
+str(data)
+head(data)
+```
+
+
+## 2.Calcula una tabla de frecuencias relativas marginales de los pares (raza de la madre, peso inferior a 2.5 kg o no) que permita ver si la raza de la madre influye en el peso del bebé.
+```{r}
+
+race <- data[c("race","bwt")]
+race <- within(race,bwt[bwt<2500] <- "Menor")
+race <- within(race,bwt[bwt>=2500 & bwt!="Menor"] <- "Mayor")
+race_pt <- prop.table(table(race))
+race_pt
+```
+
+
+## 3.Dibuja un diagrama de mosaico de la tabla del ejercicio anterior.
+```{r}
+plot(race_pt)
+```
+
+
+## 4. Dibuja un diagrama bidimensional de barras, con las barras organizadas en bloques, que permita visualizar la información de los ejercicios anteriores. Aprovecha para nombres adecuados a los bloques, colores a las barras, y añadir una leyenda que explique qué representa cada barra.
+```{r}
+barplot(race_pt,beside=TRUE,main="Diagrama de barras de tabla marginal de raza y peso", col=c("green","blue","yellow"),ylim=c(0,0.4))
+barplot(race_pt,beside=FALSE,main="Diagrama de barras de tabla marginal de raza y peso", col=c("green","blue","yellow"),ylim=c(0,0.7))
+```
+
+
+## 5. ¿Se puede obtener alguna conclusión de la tabla y el diagrama de barras anterior? Argumenta tu respuesta
+La raza 2 tiene una alta probabilidad de tener hijo de peso menor a 2500. Sus barras y datos son menores porque hay menos personas de raza 2 participando en el estudio.
+
+## 6. Repite los cuatro ejercicios anteriores para los pares (madre fumadora o no, peso inferior a 2.5 kg o no) y para los pares (madre hipertensa o no, peso inferior a 2.5 kg o no.
+### Fumadora <> peso
+```{r}
+smoke <- data[c("smoke","bwt")]
+smoke <- within(smoke,bwt[bwt<2500] <- "Menor")
+smoke <- within(smoke,bwt[bwt>=2500 & bwt!="Menor"] <- "Mayor")
+smoke_pt <- prop.table(table(smoke))
+smoke_pt
+barplot(smoke_pt,beside=TRUE,main="Diagrama de barras de tabla marginal de fumadora y peso", col=c("green","blue","yellow"),ylim=c(0,0.5))
+```
+
+### Hipertensa <> peso
+```{r}
+hipt <- data[c("ht","bwt")]
+hipt <- within(hipt,bwt[bwt<2500] <- "Menor")
+hipt <- within(hipt,bwt[bwt>=2500 & bwt!="Menor"] <- "Mayor")
+hipt_pt <- prop.table(table(hipt))
+hipt_pt
+barplot(hipt_pt,beside=TRUE,main="Diagrama de barras de tabla marginal de ipertensa y peso", col=c("green","blue","yellow"),ylim=c(0,0.8))
+```
+
+## 7. Calcula una tabla de frecuencias relativas marginales de las ternas (raza de la madre, madre fumadora o no, peso inferior a 2.5 kg o no) que permita ver si la raza de la madre y su condición de fumadora o no fumadora influyen en el peso del bebé.
+```{r}
+terna <- data[c("race","smoke","bwt")]
+terna <- within(terna,bwt[bwt<2500] <- "Menor")
+terna <- within(terna,bwt[bwt>=2500 & bwt!="Menor"] <- "Mayor")
+terna_pt <- prop.table(table(terna))
+terna_pt
+
+```
+
+## 8. Dibuja un diagrama de mosaico de la tabla del ejercicio anterior.
+```{r}
+plot(terna_pt)
+```
+

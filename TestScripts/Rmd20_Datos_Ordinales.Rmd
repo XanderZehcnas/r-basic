@@ -1,0 +1,73 @@
+---
+title: "Datos Ordinales"
+author: "ASR"
+date: "6/5/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Datos ordinales
+Los datos se pueden ordenar y se pueden contabilizar las observaciones menores o mayores que una dada.
+Por ejemplo: Escala Likert (Totalmente en desacuerdo,En desacuerdo,Ni de acuerdo ni en desacuerdo, De acuerdo, Totalmente de acuerdo) ... estos valores pueden ordenarse tambien.
+
+Ejemplo alumnos con notas: S < A < N < Ex
+Se usa ordered para obtener el vector de valores ordenados con los niveles indicados.
+```{r}
+notas = ordered(sample(c("S","A","N","Ex"),size=100,replace=TRUE),levels=c("S","A","N","Ex"))
+tnotas = table(notas)
+tnotas
+```
+
+### Frecuencia absoluta acumulada de cada valor
+Los que consiguen un valor o menos.
+```{r}
+cumsum(tnotas) # Frecuencias absolutas acumuladas
+```
+
+Lo mismo se puede calcular la frecuencia relativa acumulada.
+```{r}
+cumsum(prop.table(tnotas))
+barplot(cumsum(prop.table(tnotas)),main="Diagrama de frecuencias acumuladas")
+```
+
+### Ejemplo para valoracion de un restaurante
+```{r}
+set.seed(2018)
+clientes = sample(1:5,50,replace=TRUE)
+set.seed(NULL)
+clientes
+
+tclientes = table(clientes)
+cumsum(tclientes)
+barplot(cumsum(tclientes))
+```
+
+## Ejemplo de cuello de jirafas
+```{r}
+longitud = sample(c("MC","C","N","L","ML"),100,replace=TRUE)
+tlongitud = table(longitud)
+tlongitud
+prop.table(tlongitud)
+cumsum(tlongitud)
+cumsum(prop.table(tlongitud))
+barplot(prop.table(tlongitud))
+```
+
+# Usando tablas multidimensionales
+Se usa apply con cumsum y usando margin para elegir sobre que se aplica cumsum
+Seguimos con ejemplo de jirafas
+```{r}
+zonas = rep(c("A","B","C","D"),c(30,25,35,10))
+jirafas = data.frame(zonas,longitud)
+str(jirafas)
+head(jirafas)
+t(apply(table(jirafas),MARGIN=1,FUN=cumsum)) # Se traspone para poner en filas las zonas
+t(apply(prop.table(table(jirafas),margin=1),MARGIN=1,FUN=cumsum))
+diagrama = apply(prop.table(table(jirafas),margin=1),MARGIN=1,FUN=cumsum)
+barplot(diagrama,beside=TRUE,legend=TRUE,main="Titulo",args.legend=list(x="topleft",cex=0.55))
+```
+
+
