@@ -33,6 +33,55 @@ Nota: Los niveles se pueden marcar con: El intervalo, la marca (punto medio) o e
 cut es similar a factor que usabamos para crear factores en cualitativas.
 Una vez se han convertido en clases si estas están ordenadas (que lo están en general) podemos calcular las frecuencias (absolutas, relativas, ...)
 
+Usando hist(x,breaks=... (Mejor extremos),right=FALSE,plot=False)
+  $count # Frec. Absolutas
+  $mids # Las marcas de clase
+  ...
+
+Función ejemplo para tabla de frecuencias recibiendo el num elementos (k) en que dividir los valores cuantitativos:
+```{r}
+TablaFrecs = function(x,k,A,p) {
+  L = min(x)-p/2+A*(0:k)
+  x_cut = cut(x, breaks=L,right=FALSE)
+  intervals = levels(x_cut)
+  mc = (L[1]+L[2])/2 + A*(0:(k-1)) # Marcas de clase
+  Fr.abs = as.vector(table(x_cut))
+  Fr.rel = round(Fr.abs/length(x),4)
+  Fr.cum.abs = cumsum(Fr.abs)
+  Fr.cum.rel = cumsum(Fr.rel)
+  tabla = data.frame(intervals,mc,Fr.abs,Fr.cum.abs,Fr.rel,Fr.cum.rel)
+  tabla
+}
+TablaFrecs(petals,k=ceiling(sqrt(length(petals))),0.5,0.1)
+```
 
 
+Función ejemplo recibiendo las divisiones (L):
+```{r}
+TablaFrecs.L = function(x,L,V) {
+  x_cut = cut(x, breaks=L,right=FALSE, include.lowest=V)
+  intervals = levels(x_cut)
+  mc = (L[1:(length(L)-1)]+L[2:(length(L))])/2  # Marcas de clase
+  Fr.abs = as.vector(table(x_cut))
+  Fr.rel = round(Fr.abs/length(x),4)
+  Fr.cum.abs = cumsum(Fr.abs)
+  Fr.cum.rel = cumsum(Fr.rel)
+  tabla = data.frame(intervals,mc,Fr.abs,Fr.cum.abs,Fr.rel,Fr.cum.rel)
+  tabla
+}
+TablaFrecs.L(petals,L=c(1,2,3,4,5,6,7),FALSE)
+```
+
+## Ejemplo de Datacrab con lo ultimo visto
+
+```{r}
+crabs = read.table("../data/datacrab.txt", header=TRUE)
+cw = crabs$width
+k1 = ceiling(sqrt(length(cw)))
+A = diff(range(cw)) / k1
+TablaFrecs(cw,k1,A,0.1)
+L1 = min(cw)-1/2*0.1
+L = L1 + A*(0:k1)
+TablaFrecs.L(cw,L,FALSE)
+```
 

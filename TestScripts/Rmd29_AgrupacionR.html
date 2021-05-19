@@ -174,6 +174,7 @@ pre code {
 <div id="agrupacion-datos-r-función-cut" class="section level2">
 <h2>Agrupacion Datos R (Función cut)</h2>
 <p>Uso de cut. cut (x, breaks=…, labels=…, right=…) - breaks: k o un vector de divisiones. Mejor darle los limites de los elementos que el k, aunque tb se podría. - labels: Si queremos etiquetas en los datos (X1…) - right: Donde está cerrado. con right false el intervalo se queda cerrado izquierda [1,2)</p>
+<p>Usando ejemplo iris e incorporandolos como columnas si queremos como dato agrupado</p>
 <pre class="r"><code>iris_df = iris
 petals = iris_df$Petal.Length
 iris_df$div1 = cut(petals,breaks=5,right=FALSE)
@@ -484,6 +485,100 @@ iris_df</code></pre>
 ## 148  [5.08,5.54) [5,6)    5  Gigan
 ## 149  [5.08,5.54) [5,6)    5  Gigan
 ## 150  [5.08,5.54) [5,6)    5  Gigan</code></pre>
+</div>
+<div id="agrupación-usando-otras-funciones" class="section level2">
+<h2>Agrupación usando otras funciones</h2>
+<p>Nota: Los niveles se pueden marcar con: El intervalo, la marca (punto medio) o el orden cut es similar a factor que usabamos para crear factores en cualitativas. Una vez se han convertido en clases si estas están ordenadas (que lo están en general) podemos calcular las frecuencias (absolutas, relativas, …)</p>
+<p>Usando hist(x,breaks=… (Mejor extremos),right=FALSE,plot=False) $count # Frec. Absolutas $mids # Las marcas de clase …</p>
+<p>Función ejemplo para tabla de frecuencias recibiendo el num elementos (k) en que dividir los valores cuantitativos:</p>
+<pre class="r"><code>TablaFrecs = function(x,k,A,p) {
+  L = min(x)-p/2+A*(0:k)
+  x_cut = cut(x, breaks=L,right=FALSE)
+  intervals = levels(x_cut)
+  mc = (L[1]+L[2])/2 + A*(0:(k-1)) # Marcas de clase
+  Fr.abs = as.vector(table(x_cut))
+  Fr.rel = round(Fr.abs/length(x),4)
+  Fr.cum.abs = cumsum(Fr.abs)
+  Fr.cum.rel = cumsum(Fr.rel)
+  tabla = data.frame(intervals,mc,Fr.abs,Fr.cum.abs,Fr.rel,Fr.cum.rel)
+  tabla
+}
+TablaFrecs(petals,k=ceiling(sqrt(length(petals))),0.5,0.1)</code></pre>
+<pre><code>##      intervals  mc Fr.abs Fr.cum.abs Fr.rel Fr.cum.rel
+## 1  [0.95,1.45) 1.2     24         24 0.1600     0.1600
+## 2  [1.45,1.95) 1.7     26         50 0.1733     0.3333
+## 3  [1.95,2.45) 2.2      0         50 0.0000     0.3333
+## 4  [2.45,2.95) 2.7      0         50 0.0000     0.3333
+## 5  [2.95,3.45) 3.2      3         53 0.0200     0.3533
+## 6  [3.45,3.95) 3.7      8         61 0.0533     0.4066
+## 7  [3.95,4.45) 4.2     18         79 0.1200     0.5266
+## 8  [4.45,4.95) 4.7     25        104 0.1667     0.6933
+## 9  [4.95,5.45) 5.2     18        122 0.1200     0.8133
+## 10 [5.45,5.95) 5.7     17        139 0.1133     0.9266
+## 11 [5.95,6.45) 6.2      7        146 0.0467     0.9733
+## 12 [6.45,6.95) 6.7      4        150 0.0267     1.0000
+## 13 [6.95,7.45) 7.2      0        150 0.0000     1.0000</code></pre>
+<p>Función ejemplo recibiendo las divisiones (L):</p>
+<pre class="r"><code>TablaFrecs.L = function(x,L,V) {
+  x_cut = cut(x, breaks=L,right=FALSE, include.lowest=V)
+  intervals = levels(x_cut)
+  mc = (L[1:(length(L)-1)]+L[2:(length(L))])/2  # Marcas de clase
+  Fr.abs = as.vector(table(x_cut))
+  Fr.rel = round(Fr.abs/length(x),4)
+  Fr.cum.abs = cumsum(Fr.abs)
+  Fr.cum.rel = cumsum(Fr.rel)
+  tabla = data.frame(intervals,mc,Fr.abs,Fr.cum.abs,Fr.rel,Fr.cum.rel)
+  tabla
+}
+TablaFrecs.L(petals,L=c(1,2,3,4,5,6,7),FALSE)</code></pre>
+<pre><code>##   intervals  mc Fr.abs Fr.cum.abs Fr.rel Fr.cum.rel
+## 1     [1,2) 1.5     50         50 0.3333     0.3333
+## 2     [2,3) 2.5      0         50 0.0000     0.3333
+## 3     [3,4) 3.5     11         61 0.0733     0.4066
+## 4     [4,5) 4.5     43        104 0.2867     0.6933
+## 5     [5,6) 5.5     35        139 0.2333     0.9266
+## 6     [6,7) 6.5     11        150 0.0733     0.9999</code></pre>
+</div>
+<div id="ejemplo-de-datacrab-con-lo-ultimo-visto" class="section level2">
+<h2>Ejemplo de Datacrab con lo ultimo visto</h2>
+<pre class="r"><code>crabs = read.table(&quot;../data/datacrab.txt&quot;, header=TRUE)
+cw = crabs$width
+k1 = ceiling(sqrt(length(cw)))
+A = diff(range(cw)) / k1
+TablaFrecs(cw,k1,A,0.1)</code></pre>
+<pre><code>##      intervals       mc Fr.abs Fr.cum.abs Fr.rel Fr.cum.rel
+## 1  [20.9,21.8) 21.39643      1          1 0.0058     0.0058
+## 2  [21.8,22.7) 22.28929      4          5 0.0231     0.0289
+## 3  [22.7,23.6) 23.18214     11         16 0.0636     0.0925
+## 4  [23.6,24.5) 24.07500     21         37 0.1214     0.2139
+## 5  [24.5,25.4) 24.96786     23         60 0.1329     0.3468
+## 6  [25.4,26.3) 25.86071     36         96 0.2081     0.5549
+## 7  [26.3,27.2) 26.75357     19        115 0.1098     0.6647
+## 8  [27.2,28.1) 27.64643     22        137 0.1272     0.7919
+## 9    [28.1,29) 28.53929     16        153 0.0925     0.8844
+## 10   [29,29.9) 29.43214     11        164 0.0636     0.9480
+## 11 [29.9,30.8) 30.32500      6        170 0.0347     0.9827
+## 12 [30.8,31.7) 31.21786      0        170 0.0000     0.9827
+## 13 [31.7,32.6) 32.11071      2        172 0.0116     0.9943
+## 14 [32.6,33.5) 33.00357      0        172 0.0000     0.9943</code></pre>
+<pre class="r"><code>L1 = min(cw)-1/2*0.1
+L = L1 + A*(0:k1)
+TablaFrecs.L(cw,L,FALSE)</code></pre>
+<pre><code>##      intervals       mc Fr.abs Fr.cum.abs Fr.rel Fr.cum.rel
+## 1  [20.9,21.8) 21.39643      1          1 0.0058     0.0058
+## 2  [21.8,22.7) 22.28929      4          5 0.0231     0.0289
+## 3  [22.7,23.6) 23.18214     11         16 0.0636     0.0925
+## 4  [23.6,24.5) 24.07500     21         37 0.1214     0.2139
+## 5  [24.5,25.4) 24.96786     23         60 0.1329     0.3468
+## 6  [25.4,26.3) 25.86071     36         96 0.2081     0.5549
+## 7  [26.3,27.2) 26.75357     19        115 0.1098     0.6647
+## 8  [27.2,28.1) 27.64643     22        137 0.1272     0.7919
+## 9    [28.1,29) 28.53929     16        153 0.0925     0.8844
+## 10   [29,29.9) 29.43214     11        164 0.0636     0.9480
+## 11 [29.9,30.8) 30.32500      6        170 0.0347     0.9827
+## 12 [30.8,31.7) 31.21786      0        170 0.0000     0.9827
+## 13 [31.7,32.6) 32.11071      2        172 0.0116     0.9943
+## 14 [32.6,33.5) 33.00357      0        172 0.0000     0.9943</code></pre>
 </div>
 
 
