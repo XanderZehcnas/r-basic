@@ -25,7 +25,7 @@ iris_df$div2 = cut(petals,breaks=ceiling(sqrt(length(petals))),right=FALSE) # Re
 iris_df$div3 = cut(petals,breaks=c(1,2,3,4,5,6,7),right=FALSE) #Se muestra el intervalo
 iris_df$div4 = cut(petals,breaks=c(1,2,3,4,5,6,7),right=FALSE, labels=FALSE) # Muestra numeros de los levels
 iris_df$div5 = cut(petals,breaks=c(1,2,3,4,5,6,7),right=FALSE, labels=c("Peq","Norm","Gran","XGran","Gigan", "Gigan2")) # Muestra los indicados
-iris_df
+head(iris_df)
 ```
 
 ## Agrupación  usando otras funciones
@@ -84,4 +84,50 @@ L1 = min(cw)-1/2*0.1
 L = L1 + A*(0:k1)
 TablaFrecs.L(cw,L,FALSE)
 ```
+
+## Ejemplo de notas de bachillerato
+
+```{r}
+set.seed(4)
+notas = sample(0:10,100, replace = TRUE)
+set.seed(NULL)
+notas
+```
+
+Intervalos con distintas amplitudes.
+```{r}
+L = c(0,5,7,9,10)
+notas1 = cut(notas,breaks=L,right=FALSE, include.lowest = TRUE)
+notas1
+
+MC = (L[1:(length(L)-1)]+L[2:length(L)])/2
+notas2 = cut(notas,breaks=L, labels=MC,right=FALSE,include.lowest=TRUE)
+notas2
+
+notas3 = cut(notas,breaks=L,labels=FALSE,right=FALSE,include.lowest=TRUE)
+notas3 # Con orden de intervalo
+
+notas4 = cut(notas,breaks = L,labels = c("Susp","Aprob","Not","Exc"),right=FALSE,include.lowest=TRUE)
+notas4
+```
+
+Ahora sacamos frecuencias
+```{r}
+table(notas4)
+prop.table(table(notas4))
+cumsum(table(notas4))
+cumsum(prop.table(table(notas4)))
+
+notasHist = hist(notas,breaks = L,right=FALSE,include.lowest=TRUE,plot=FALSE)
+FAbs = notasHist$count
+FRel = prop.table(FAbs)
+FAbsCum = cumsum(FAbs)
+FRelCum = cumsum(FRel)
+intervalos = c("[0,5)","[5,7)","[7,9)","[9,10]")
+calificacion = c("Suspenso","Aprobado","Notable","Excelente")
+marcas=notasHist$mids
+tabla.Fr = data.frame(intervalos,calificacion,marcas,FAbs,FAbsCum,FRel,FRelCum)
+tabla.Fr
+```
+
 
