@@ -1,0 +1,92 @@
+---
+title: "Introducción a la regresión lineal"
+author: "ASR"
+date: "25/5/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introducción a la regresión no lineal
+Encontrar la relación entre la variable independiente (x) y la dependiente (y)
+Recta -> y = ax + b
+El objetivo minimizar las diferencias usando los valores x de que disponemos y las y que salen.
+
+### La Recta de regresión
+```{r}
+body = read.table("../data/bodyfat.txt",header=TRUE)
+head(body,3)
+body2 = body[,c(2,4)]
+names(body2) = c("Grasa","Peso")
+head(body2,3)
+```
+Lo representamos para verlo con una nave de puntos:
+```{r}
+plot(body2)
+lm(Peso~Grasa,data=body2) # Explicar y en función de x - Peso en función de Grasa
+```
+Obtenemos: Peso = 137.738 + 2.151*Grasa
+
+```{r}
+plot(body2)
+abline(lm(Peso~Grasa,data=body2), col="purple")
+```
+La recta que sale es única, la función que la saca es la que hay, no hay otras rectas mejores.
+
+Se puede obtener el coeficiente $R^2$, se encuentra entre 0 y 1 y si es superior a 0.9 es que es relevante.
+
+```{r}
+summary(lm(Peso~Grasa,data=body2))$r.squared
+```
+
+## Transformaciones logaritmicas de los datos
+Para una vez transformados ver si hay una relación lineal.
+Si tenemos dependencias de potencias o exponenciales se puede cambiar de escala para ver si hay despues relación de algún tipo.
+
+Semilogatirmica: (soloy)
+$log(y) = ax + b = 10^ax\cdot10^b=\alpha^x\cdot\beta$ con $\alpha = 10^a y \beta=10^b$
+
+Logaritmica: (ambos)
+$log(y) = a\cdot log(x)+b$ -> $y = 10^{log(x)\cdot a}\cdot10^b = x^a\cdot\beta$
+
+### Ejemplo exponencial
+```{r}
+dep = c(1.2,3.6,12,36)
+ind = c(20,35,61,82)
+plot(ind,dep,main="Escala lineal")
+plot(ind,dep,log="y",main="Escala semilogaritmica")
+```
+
+Probamos cambiando escala:
+```{r}
+lm(log10(dep)~ind)
+summary(lm(log10(dep)~ind))$r.squared
+```
+Resultado: $log(dep) = 0.023\cdot ind-0.33 = 1.054^{ind} \cdot 0.468$
+```{r}
+plot(ind,dep,main="Curva de regresión")
+curve(1.054^x*0.468,add=TRUE,col="purple")
+```
+
+### Ejemplo potencia
+```{r}
+tiempo = 1:10
+gramos = c(0.097,0.709,2.698,6.928,15.242,29.944,52.902,83.903,120.612,161.711)
+d.f = data.frame(tiempo,gramos)
+plot(d.f)
+plot(d.f,log="y")
+plot(d.f,log="xy")
+```
+Aplicamos modelo lineal a los log:
+```{r}
+lm(log10(gramos)~log10(tiempo))
+summary(lm(log10(gramos)~log10(tiempo)))$r.squared
+```
+Resultado: $gramos = tiempo^{3.298}\cdot0.081$
+```{r}
+plot(d.f,main="Curva de regresion")
+curve(x^(3.298)*0.081,add=TRUE,col="purple")
+```
+

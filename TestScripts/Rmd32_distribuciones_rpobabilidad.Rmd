@@ -1,0 +1,57 @@
+---
+title: "Distribuciones de probabilidad"
+author: "ASR"
+date: "25/5/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introducción de distribuciones de probabilidad
+- Experimento aleatorio (ej. Tirar la moneda)
+- Suceso elemental: Sacar la Cara (C) o la Cruz (+)
+- Espacio muestral: $\Omega$ {C,+}
+- Suceso: Subconjunto
+- Suceso total: Todo el espacio muestral.
+- Suceso vacío o imposible.
+
+## Variables aleatorias (v.a.)
+El total es $\Omega$. La variable aleatoria es $X(\omega)$ y Dx el dominio que son los valores que puede tomar.
+
+Función de distribución de la v.a.
+$F(x)=p(X<=x)$ - Como probabilidad acumulada del valor x.
+$p(x<=a) = F(a)$
+$p(x<a) = F(a^-)$
+$p(x=a) = F(a) - F(a^-)$
+$p(a<=x<=a) = F(b) - F(a^-)$
+
+Quantiles se aplica con probabilidades (0.25, 0.5 y 0.75)
+
+### Variables aleatorias discretas
+Funcion de densidad: $f(x) = p(X=x)$
+Esperanza de una variable aleatoria discreta: Producto del elemento o transformacion del mismo por su probabilidad.
+$$E(X) = \sum_{x€D_x}x\cdot f(x)$$
+Tambien aplica:
+$$E(g(x)) = \sum_{x€D_x}g(x)\cdot f(x)$$
+
+Varianza de una v.a discreta: Como se alejan los valores de x de la media.
+$$Var(X) = E((X-E(X))^2)= E(X^2)-(E(X))^2$$
+Tambian aplica:
+$$Var(g(X)) = E((g(X)-E(g(X)))^2)= E(g(X)^2)-(E(g(X)))^2$$
+Desviación típica:
+$\sigma(x)=\sqrt{Var(X)}$
+$\sigma(g(x))=\sqrt{Var(g(X))}$
+
+
+## Sesgo (Skewness) en una distribución de probabilidad
+Campanas de distribución normal pero tumbadas a izquierda o derecha. Sesgo a izquierda o a derecha.
+A veces se define como (media - mediana) / sigma
+Es ver si mediana, media y moda están próximas o no, en caso de que no hay un sesgo claro.
+
+## Distribuciones de probabilidad
+```{r}
+
+```
+
