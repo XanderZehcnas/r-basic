@@ -268,3 +268,52 @@ Nº de eventos en un cierto intervalo de tiempo.
 $$f(k)=\frac{e^{-\lambda \lambda^k}}{k!}$$
 $E(X)=\lambda$
 $Var(X)=\lambda$
+
+X modelo errores ortograficos por página  tiene una valor esperado de $\lambda=5$
+```{r}
+l=5
+dpois(x=0:10,lambda=l)
+plot(0:20,dpois(x=0:20,lambda=l))
+ppois(0:20,l)
+qpois(0.5,5)
+rpois(1000,lambda=l) -> data
+hist(data)
+```
+
+### En Python:
+
+```{python}
+from scipy.stats import poisson
+
+fig,ax = plt.subplots(1,1)
+mu = 0.8
+
+mean,var,skew,kurt = poisson.stats(mu,moments='mvsk')
+print("Media %f"%mean)
+print("Var %f"%var)
+print("Sesgo %f"%skew)
+print("Kurt %f"%kurt)
+
+x = np.arange(0,5)
+ax.plot(x,poisson.pmf(x,mu),'bo',ms=8,label="Dist. Poisson(0.8)")
+ax.vlines(x,0,poisson.pmf(x,mu),colors='b',lw=4,alpha=0.5)
+
+ax.legend(loc='best',frameon=False)
+plt.show()
+```
+
+## Distribución Binomial Negativa
+Numero de repeticiones de (exito,fracaso) hasta alcanzar un número de éxitos. r por el numero de éxitos.
+X = BN(r,p)
+
+Funcs: pnbinom, dnbinom, ... 
+
+```{r}
+r=5
+p=0.3
+dnbinom(x=0:20,size=r,prob=p)
+plot(0:20,dnbinom(x=0:20,size=r,prob=p))
+
+```
+
+
