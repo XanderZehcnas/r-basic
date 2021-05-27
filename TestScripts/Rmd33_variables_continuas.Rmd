@@ -1,0 +1,68 @@
+---
+title: "Variables Aleatorias continuas"
+author: "ASR"
+date: "27/5/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Variables aleatorias continuas
+No se pueden aplicar sumas y se aplican integrales.
+Debajo de la curva el área es 1.
+Función de distribución: F(x) = $\int_{-inf}^x{f(t)dt}$ - Acumula el área bajo la densidad.
+$$E(X) = \int_{-inf}^{inf}{x\cdot fx(x)dx}$$
+Si el dominio es entre intervalos a y b:
+$$E(X) = \int_{a}^{b}{x\cdot fx(x)dx}$$
+
+Y puede aplicarse a una función, pudiendo asi aplicarlo a cualquier transformación:
+$$E(g(X) = \int_{a}^{b}{g(x)\cdot fx(x)dx}$$
+
+$Var(X) = E((X-E(X))^2)$
+Desv. típica:
+$\sigma=\sqrt{Var(x)}$
+
+## Distribuciones más conocidas:
+- Uniforme
+- Exponencial
+- Normal
+- Khi cuadrado
+- t de Student
+- F de Fisher
+
+### Dist. Uniforme
+Dominio D_x = [a,b]
+$E(X)=\frac{a+b}{2}$
+$Var(X)=\frac{(b-a)^2}{12}$
+
+Funciones: dunif, punif,qunif,runif
+Supongamos X=U([0,1])
+```{r}
+a = 0
+b = 1
+x = seq(-0.1,1.1,0.1)
+plot(x,dunif(x,min=a,max=b),type="l")
+plot(x,punif(x,min=a,max=b),type="l")
+qunif(0.5,a,b)
+```
+
+### Dist. Exponencial
+Parámetro $ \lambda$
+$E(X)=1/\lambda$
+$Var(X)=\frac{1}{\lambda^2}$
+Funciones: dexp,pexp,qexp,rexp with rate=$\lambda$
+En python scale = $1/\lambda$
+```{r}
+
+```
+
+### Distribución normal (Campana de Gauss)
+Se distinguen media y desviación tipica.
+Funciones: dnorm,pnorm,qnorm,rnorm
+
+No existe función como tal F(X) conocida.
+Se pueden usar tablas que ya existen creadas.
+
+

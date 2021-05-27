@@ -1,0 +1,79 @@
+---
+title: "Repaso distribuciones probabilidad"
+author: "ASR"
+date: "27/5/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#1 . En una universidad, se sabe que el 25% de los alumnos realizan algún tipo de deporte. Se ha obtenido una muestra de 30 alumnos.
+
+a) Si llamamos X a la variable aleatoria que cuenta el número de alumnos que realizan algún tipo de deporte, ¿qué tipo de distribución sigue X?
+Binomial
+b) ¿Qué esperanza tiene X?
+E(X) = 30*0.25 = 7.5
+c) ¿Y varianza?
+Var(X) = 30*0.25*0.75 = 5.625
+d) Calcula con R (o Python) la probabilidad de que más de 25 alumnos practiquen algún deporte.
+```{r}
+library(Rlab)
+n=30
+p=0.25
+result = 1-pbinom(25,size=n,prob=p)
+result
+```
+
+e) Calcula con R (o Python) la probabilidad de que exactamente 15 alumnos practiquen algún deporte.
+```{r}
+result = pbinom(15,size=n,prob=p)-pbinom(14,size=n,prob=p)
+result
+```
+
+f) Calcula con R (o Python) la probabilidad de que de 10 alumnos o menos practiquen algún deporte.
+```{r}
+result = pbinom(10,size=n,prob=p)
+result
+```
+
+# 2. El número medio de accidentes de coche en la ciudad de Mahón en 2 meses es de 2 accidentes.
+
+a) ¿Qué distribución sigue la v.a. que cuenta el número de accidentes en 2 meses?
+
+b) Calcula la esperanza
+
+c) Calcula con R (o Python) la probabilidad de que no ocurra ningún accidente en 2 meses.
+
+El 40% de un pueblo a las afueras de la ciudad de Pensilvania ve un concurso que dan por la tele. El concurso llama por teléfono a 15 personas del pueblo elegidas al azar. ¿De qué distribución se trata?
+
+En un bol muy grande tenemos, en total, 70 fresas, de entre las cuales 10 están podridas. Tomando un puñado de 20 fresas al azar y sin reemplazar ninguna de ellas, ¿qué distribución sigue la v.a. que cuenta el número de fresas podridas?
+
+Da también la esperanza y la varianza de esta variable aleatoria.
+
+Un test de matemáticas consta de 200 preguntas de verdadero o falso. Para una persona que respondiese al azar, ¿qué distribución seguiría la v.a. que cuenta el número de preguntas acertadas?
+
+Da también la esperanza y la varianza de esta variable aleatoria.
+
+Un test de matemáticas consta de 200 preguntas. Cada pregunta consta de 4 posibles respuestas con solo una correcta. Para una persona que respondiese al azar, ¿qué distribución seguiría la v.a. que cuenta el número de preguntas acertadas?
+
+Da también la esperanza y la varianza de esta variable aleatoria.
+
+Un test de matemáticas consta de 200 preguntas de verdadero o falso. Para una persona que respondiese al azar y por orden, ¿qué distribución seguiría la v.a. que cuenta el número de preguntas respondidas hasta el primer acierto?
+
+Da también la esperanza y la varianza de esta variable aleatoria.
+
+Para evitar ser arrestado al pasar el control de seguridad, un viajero ha colocado 7 pastillas de droga en una botella que contiene 14 píldoras de vitaminas, las cuales son muy similares a las otras. Si el policía de turno selecciona 4 pastillas aleatoriamente para analizarlas, ¿qué distribución sigue la v.a. que cuenta el número de pastillas de droga?
+
+Un servicio dedicado a la reparación de aires acondicionados recibe de media 27 llamadas diarias. ¿Qué distribución sigue la v.a. que cuenta el número de llamadas diarias?
+
+Se lanza 53 veces un dado. ¿Qué distribución sigue la v.a. que cuenta cuántas veces ha salido un número impar? ¿Y la v.a. que cuenta el número de veces que ha salido un número par? ¿Y la v.a. que cuenta las veces que hemos obtenido exactamente el número "5"?
+
+El precio medio del litro de gasolina durante el próximo año se estima que puede oscilar entre 1.09€ y 2.53€. ¿De qué distribución de probabilidad se trata?
+
+Da la esperanza
+
+En una tienda del centro comercial, el tiempo medio de cola para poder pagar en caja es de 7 minutos. ¿De qué distribución de probabilidad se trata?
+
+Da la esperanza y varianza
