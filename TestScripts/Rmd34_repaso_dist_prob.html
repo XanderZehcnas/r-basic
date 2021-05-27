@@ -209,14 +209,23 @@ result</code></pre>
 <div id="el-número-medio-de-accidentes-de-coche-en-la-ciudad-de-mahón-en-2-meses-es-de-2-accidentes." class="section level1">
 <h1>2. El número medio de accidentes de coche en la ciudad de Mahón en 2 meses es de 2 accidentes.</h1>
 <ol style="list-style-type: lower-alpha">
-<li><p>¿Qué distribución sigue la v.a. que cuenta el número de accidentes en 2 meses?</p></li>
-<li><p>Calcula la esperanza</p></li>
-<li><p>Calcula con R (o Python) la probabilidad de que no ocurra ningún accidente en 2 meses.</p></li>
+<li>¿Qué distribución sigue la v.a. que cuenta el número de accidentes en 2 meses? Poisson</li>
+<li>Calcula la esperanza E(X)=2</li>
+<li>Calcula con R (o Python) la probabilidad de que no ocurra ningún accidente en 2 meses.</li>
 </ol>
-<p>El 40% de un pueblo a las afueras de la ciudad de Pensilvania ve un concurso que dan por la tele. El concurso llama por teléfono a 15 personas del pueblo elegidas al azar. ¿De qué distribución se trata?</p>
-<p>En un bol muy grande tenemos, en total, 70 fresas, de entre las cuales 10 están podridas. Tomando un puñado de 20 fresas al azar y sin reemplazar ninguna de ellas, ¿qué distribución sigue la v.a. que cuenta el número de fresas podridas?</p>
+<pre class="r"><code>l = 2
+ppois(0,l)</code></pre>
+<pre><code>## [1] 0.1353353</code></pre>
+</div>
+<div id="el-40-de-un-pueblo-a-las-afueras-de-la-ciudad-de-pensilvania-ve-un-concurso-que-dan-por-la-tele.-el-concurso-llama-por-teléfono-a-15-personas-del-pueblo-elegidas-al-azar.-de-qué-distribución-se-trata" class="section level1">
+<h1>3. El 40% de un pueblo a las afueras de la ciudad de Pensilvania ve un concurso que dan por la tele. El concurso llama por teléfono a 15 personas del pueblo elegidas al azar. ¿De qué distribución se trata?</h1>
+<ol start="4" style="list-style-type: decimal">
+<li>En un bol muy grande tenemos, en total, 70 fresas, de entre las cuales 10 están podridas. Tomando un puñado de 20 fresas al azar y sin reemplazar ninguna de ellas, ¿qué distribución sigue la v.a. que cuenta el número de fresas podridas?</li>
+</ol>
 <p>Da también la esperanza y la varianza de esta variable aleatoria.</p>
-<p>Un test de matemáticas consta de 200 preguntas de verdadero o falso. Para una persona que respondiese al azar, ¿qué distribución seguiría la v.a. que cuenta el número de preguntas acertadas?</p>
+<ol start="5" style="list-style-type: decimal">
+<li>Un test de matemáticas consta de 200 preguntas de verdadero o falso. Para una persona que respondiese al azar, ¿qué distribución seguiría la v.a. que cuenta el número de preguntas acertadas?</li>
+</ol>
 <p>Da también la esperanza y la varianza de esta variable aleatoria.</p>
 <p>Un test de matemáticas consta de 200 preguntas. Cada pregunta consta de 4 posibles respuestas con solo una correcta. Para una persona que respondiese al azar, ¿qué distribución seguiría la v.a. que cuenta el número de preguntas acertadas?</p>
 <p>Da también la esperanza y la varianza de esta variable aleatoria.</p>

@@ -215,8 +215,9 @@ plt.show()
 Modela la extracción de objetos de un conjunto donde hay N objetos de tipo 1 y M objetos de tipo 2. Se extraen n objetos y se mide el nº de objetos de tipo 1 (tipo A)
 
 $$f(k)=\frac{\left(\matrix{N k}\right)}{}$$
-$E(X)=\frac{nN}{N+M}$
-$Var(X) = \frac{nNM}{(N+M)^2}\cdot \frac{N+M-n}{N+M-1}$
+$$E(X)=\frac{nN}{N+M}$$
+$$Var(X) = \frac{nNM}{(N+M)^2}\cdot \frac{N+M-n}{N+M-1}$$
+
 
 Tenemos 20 animales y 7 son perros. Medir prob de encontrar un num de perros si elegimos x animales al azar.
 ```{r}
