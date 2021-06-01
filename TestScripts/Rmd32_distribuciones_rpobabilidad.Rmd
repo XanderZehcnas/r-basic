@@ -163,7 +163,7 @@ X = Ge(p)
 
 $f(k)=(1-p)^kp$ Si empieza en 0
 $f(k)=(1-p)^{k-1}p$ Si empieza en 1
-$E(X)=\frac{1-p}{p}$ empezando en 0 y $\frac{1}{p}$ si empieza en 1.
+$E(X)=\frac{1-p}{p}$ empezando en 0 y $\frac{1}{p}$ si empieza en 1.wa
 
 Sea $X=Geom(p=0.1)$:
 ```{r}
