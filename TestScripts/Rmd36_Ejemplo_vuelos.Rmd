@@ -1,0 +1,47 @@
+---
+title: "Rmd36_Ejemplo_Vuelos"
+author: "ASR"
+date: "30/5/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(reticulate)
+#use_python("") # Para poder cargar un path concreto de python
+```
+
+## Pokemons
+```{python}
+import pandas as pd
+pokemon=pd.read_csv("../data/Pokemon.csv")
+print(pokemon.head())
+pokemon=pokemon[pokemon["Generation"]==1]
+pokemon=pokemon[["Type 1","Type 2","Speed"]]
+print(pokemon.shape)
+pokemon=pokemon.dropna() # Limpieza datos
+print(pokemon.shape)
+```
+
+Cambiando a R para ver como usar variables de python:
+```{r fig.width=7, fig.height=4}
+hist(py$pokemon[,"Speed"],breaks=10,main="Velocidad Pokemon")
+```
+
+
+## Versión hacia python
+```{r}
+pokemon2 = read.csv("../data/Pokemon.csv",header=TRUE)
+library(tidyverse)
+pokemon2 <- pokemon2 %>% 
+  filter(Generation==1) %>% 
+  select(Type.1,Type.2,Speed) %>% 
+  na.omit()
+summary(pokemon2)
+```
+
+A python:
+```{python}
+print(r.pokemon2.head())
+```
+

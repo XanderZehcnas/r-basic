@@ -1,0 +1,35 @@
+---
+title: "Ejemplo Vuelos NYC"
+author: "ASR"
+date: "30/5/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(reticulate)
+```
+
+## Ejemplo Vuelos NYC
+```{r}
+data <- nycflights13::flights
+head(data)
+summary(data)
+```
+
+```{python}
+pydata = r.data
+pydata=pydata[pydata["dest"]=="ORD"]
+pydata=pydata[["carrier","dep_delay","arr_delay","origin"]]
+pydata=pydata[pydata["arr_delay"]<360]
+pydata = pydata.dropna()
+print(pydata.head())
+print(pydata.shape)
+```
+
+```{r}
+summary(py$pydata)
+boxplot(arr_delay~origin,data=py$pydata,main="Prueba Boxplot")
+```
+
+

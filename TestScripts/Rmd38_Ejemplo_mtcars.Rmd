@@ -1,0 +1,119 @@
+---
+title: "Datos de coches"
+author: "ASR"
+date: "30/5/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+# Análisis de los coches mtcars en python
+
+## Carga de datos
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from ggplot import mtcars
+data = mtcars
+data.index = data["name"]
+print(data.head())
+
+```
+
+## Medidas de centralización
+Empezamos con algunos primeros análisis:
+```{python}
+print(data.mean())
+print(data.median())
+print(data.mode())
+```
+La moda la hace de todas las columnas, tb del nombre del coche que al aparecer una sola vez cada uno muestra todos por ser moda (1 aparición) todos a la vez.
+
+## Medidas vs distribuciones
+Con un ejemplo normal lo vemos centrado. Podría tener sesgo a un lado o a otro.
+```{python}
+norm_data = pd.DataFrame(np.random.normal(size=100000))
+norm_data.plot(kind="density",figsize=(10,10))
+plt.vlines(norm_data.mean(),ymin=0,ymax=0.4,lw=5.0,color="green")
+plt.vlines(norm_data.median(),ymin=0,ymax=0.4,lw=2.0,color="red")
+plt.show()
+```
+
+```{python}
+skewed_data = pd.DataFrame(np.random.exponential(size=100000))
+skewed_data.plot(kind="density",figsize=(10,10),xlim=(-1,5))
+plt.vlines(skewed_data.mean(),ymin=0,ymax=1.0,lw=5.0,color="green")
+plt.vlines(skewed_data.median(),ymin=0,ymax=1.0,lw=2.0,color="red")
+plt.show()
+```
+
+## Medidas de Dispersión
+Conocer el grado de dispersión de una variable. Rango + quantiles.
+
+Rango de mpg:
+```{python}
+rango = max(data["mpg"])-min(data["mpg"])
+print(rango)
+
+five_nums = [data["mpg"].quantile(0),data["mpg"].quantile(0.25),data["mpg"].quantile(0.5),data["mpg"].quantile(0.75),data["mpg"].quantile(1)]
+print(five_nums)
+
+print(data["mpg"].describe())
+```
+
+Rango inercuatilico:
+```{python}
+print(data["mpg"].quantile(0.75)-data["mpg"].quantile(0.25))
+
+plt.clf()
+data.boxplot(column="mpg",return_type="axes",figsize=(10,10))
+plt.text(0.75,y=data["mpg"].quantile(0.25),s="1st Quantile")
+plt.text(0.75,y=data["mpg"].quantile(0.5),s="Mediana")
+plt.text(0.75,y=data["mpg"].quantile(0.75),s="3rd Quantile")
+plt.text(0.75,y=data["mpg"].quantile(0),s="Min")
+plt.text(0.75,y=data["mpg"].quantile(1),s="Max")
+plt.show()
+```
+
+Varianza y desv. típica y Mediana Absoluta:
+```{python}
+data["mpg"].var()
+data["mpg"].std()
+
+# MEDIANA ABSOLUTA
+mad = abs(data["mpg"]-mtcars["mpg"].median())
+k=1.4826
+print(mad.median()*k)
+```
+
+El sesgo: Simetria o asimetria de una distribución.
+```{python}
+print(data["mpg"].skew())
+```
+Se ve que va hacia la derecha.
+
+Coeficiente de Kurtosis: Como de picuda es la distribución.
+```{python}
+print(data["mpg"].kurt())
+```
+Bastante equilibrado, no tiene mucho pico.
+
+Veamos graficamente los datos con varias distribuciones:
+```{python}
+norm = np.random.normal(size=100000)
+data2 = pd.DataFrame({"normal":norm})
+
+plt.clf()
+data2.plot(kind="density",figsize=(10,10),xlim=(-5,5))
+plt.show()
+
+print("Normal, Sesgo=%f, Curtosis=%f"%(data2["normal"].skew(),data2["normal"].kurt()))
+```
+
+
+
+
